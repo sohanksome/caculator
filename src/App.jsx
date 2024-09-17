@@ -82,25 +82,25 @@ function Caculate(){
       <div id='display'>{display}</div>
       <div id='container'>
         <div id='left'>
-          <button id='AC' className='double' onClick={() => handleButtonClick('AC')}>AC</button>
-          <button id='divide' onClick={() => handleButtonClick('/')} className= {divide? 'selected' : null}>/</button>
-          <button id='7' onClick={() => handleButtonClick('7')}>7</button>
-          <button id='8' onClick={() => handleButtonClick('8')}>8</button>
-          <button id='9' onClick={() => handleButtonClick('9')}>9</button>
-          <button id='4' onClick={() => handleButtonClick('4')}>4</button>
-          <button id='5' onClick={() => handleButtonClick('5')}>5</button>
-          <button id='6' onClick={() => handleButtonClick('6')}>6</button>
-          <button id='1' onClick={() => handleButtonClick('1')}>1</button>
-          <button id='2' onClick={() => handleButtonClick('2')}>2</button>
-          <button id='3' onClick={() => handleButtonClick('3')}>3</button>
-          <button id='0' className='double' onClick={() => handleButtonClick('0')}>0</button>
+          <button id='clear' className='double' onClick={() => handleButtonClick('AC')}>AC</button>
+          <button id='divide' onClick={() => handleButtonClick('/')} className= 'selected'>/</button>
+          <button id='seven' onClick={() => handleButtonClick('7')}>7</button>
+          <button id='eight' onClick={() => handleButtonClick('8')}>8</button>
+          <button id='nine' onClick={() => handleButtonClick('9')}>9</button>
+          <button id='four' onClick={() => handleButtonClick('4')}>4</button>
+          <button id='five' onClick={() => handleButtonClick('5')}>5</button>
+          <button id='six' onClick={() => handleButtonClick('6')}>6</button>
+          <button id='one' onClick={() => handleButtonClick('1')}>1</button>
+          <button id='two' onClick={() => handleButtonClick('2')}>2</button>
+          <button id='three' onClick={() => handleButtonClick('3')}>3</button>
+          <button id='zero' className='double' onClick={() => handleButtonClick('0')}>0</button>
           <button id='decimal' onClick={() => handleButtonClick('.')}>.</button>
         </div>
         <div id='right'>
           <button id='multiply' onClick={() => handleButtonClick('*')} className='selected'>*</button>
           <button id='subtract' onClick={() => handleButtonClick('-')} className='selected'>-</button>
           <button id='add' onClick={() => handleButtonClick('+')} className='selected'>+</button>
-          <button id='equal' onClick={() => handleButtonClick('=')} className= 'vertical-double selected'>=</button>
+          <button id='equals' onClick={() => handleButtonClick('=')} className= 'vertical-double selected'>=</button>
         </div>
       </div>
     </>
