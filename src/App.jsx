@@ -4,49 +4,85 @@ import './App.css';
 function Caculate() {
   const [display, setDisplay] = useState('0');
   const [expression, setExpression] = useState('');
+  const [lastInput, setLastInput] = useState('');
+  
+
+  // Function to format numbers to a specified number of decimal places
+  const formatNumber = (number, decimals = 4) => {
+    return Number(number).toFixed(decimals);
+  };
 
   const handleButtonClick = (value) => {
     if (value === '=') {
       try {
-        const result = eval(expression);
-        setDisplay(result.toString());
-        setExpression(result.toString());
+        // Evaluate the expression
+        const result = eval(expression); // Use eval with caution
+
+        // Format the result with up to 4 decimal places
+        const formattedResult = formatNumber(result, 4);
+
+        // Remove trailing zeros and decimal point if necessary
+        const displayResult = parseFloat(formattedResult).toString();
+
+        // Update display and expression
+        setDisplay(displayResult);
+        setExpression(displayResult);
+        setLastInput('result');
       } catch (error) {
         setDisplay('Error');
         setExpression('');
+        setLastInput(''); // Reset lastInput on error
       }
     } else if (value === 'AC') {
       setDisplay('0');
       setExpression('');
-    } else {
-      // Handle numbers and decimal point
-      if (/[\d]/.test(value)) {
-        if (display === '0' && value !== '.') {
-          setDisplay(value);
-        } else {
-          setDisplay(prev => prev + value);
-        }
-      } else if (value === '.') {
-        if (!display.includes('.')) {
-          setDisplay(prev => prev + value);
-        }
-      } else if (['+', '-', '*', '/'].includes(value)) {
-        if (display !== '0' || expression !== '') {
+      setLastInput('');
+    } else if (['+', '-', '*', '/'].includes(value)) {
+      if (lastInput === '') {
+        // If the expression starts with an operator, handle it differently
+        if (value === '-') {
           setExpression(prev => prev + value);
           setDisplay(value);
         }
+      } else if (['+', '-', '*', '/'].includes(lastInput)) {
+        // If the last input was an operator, replace it unless it's a minus sign
+        if (value !== '-') {
+          setExpression(prev => {
+            // Remove all trailing operators except for the minus sign
+            let trimmedExpression = prev.replace(/[\+\-\*\/]+$/, '');
+            return trimmedExpression + value;
+          });
+        } else {
+          // If the last operator was a minus sign, handle it specially
+          setExpression(prev => prev + value);
+        }
+        setDisplay(value);
+      } else {
+        // Handle the case where there was a number before the operator
+        setExpression(prev => prev + value);
+        setDisplay(value);
       }
-    }
-    
-    // Update expression
-    if (!['=', 'AC'].includes(value)) {
-      const newExpression = expression + value;
-      if (value === '0' && (expression === '' || /[\d+\-*/]$/.test(expression))) {
-        return; // Prevent adding multiple leading zeros
+      setLastInput(value);
+    } else if (value === '.') {
+      // Handle decimal point
+      if (!display.includes('.') || ['+', '-', '*', '/'].includes(lastInput)) {
+        setDisplay(prev => (['+', '-', '*', '/'].includes(lastInput) ? '0.' : prev + value));
+        setExpression(prev => prev + value);
+        setLastInput('.');
       }
-      setExpression(newExpression);
+    } else {
+      // Handle numbers
+      if (display === '0' && value === '0') return; // Prevent multiple leading zeros
+      if (['+', '-', '*', '/'].includes(lastInput)) {
+        setDisplay(value); // Start a new number after an operator
+      } else {
+        setDisplay(prev => (prev === '0' ? value : prev + value));
+      }
+      setExpression(prev => prev + value);
+      setLastInput(value);
+      
     }
-  }
+  };
 
   return (
     <>
